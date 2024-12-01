@@ -1,0 +1,18 @@
+{
+  "name": "cometa-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:backend": "cd apps/backend && python manage.py runserver",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev": "pnpm -r run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.16.0",
+    "prettier": "^3.4.1"
+  }
+}
