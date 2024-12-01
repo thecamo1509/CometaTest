@@ -15,17 +15,17 @@ class Inventory:
                 {
                     "name": "Corona",
                     "price": 115,
-                    "quantity": 2
+                    "quantity": 25
                 },
                 {
                     "name": "Quilmes",
                     "price": 120,
-                    "quantity": 0
+                    "quantity": 30
                 },
                 {
                     "name": "Club Colombia",
                     "price": 110,
-                    "quantity": 3
+                    "quantity": 53
                 }
             ]
         }

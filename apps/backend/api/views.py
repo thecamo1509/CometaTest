@@ -17,25 +17,13 @@ from django.utils.timezone import now
 class OrderView(APIView):
     def get(self,request, uid=None):
         order_repo:OrderRepository = DjangoOrderRepository()
-        if uid:
-        # Obtener una orden específica por UID
-            try:
-                order = order_repo.get_order(uid=UUID(uid))
-                if order is None:
-                    return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
-                serializer = OrderSerializer(order)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            except ValueError:
-                return Response({"error": "Invalid UID format"}, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            # Obtener todas las órdenes
-            try:
-                get_all_orders = GetAllOrdersUseCase(order_repo)
-                orders: List[Order] = get_all_orders.execute()
-                serializer = OrderSerializer(orders, many=True)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            except Exception as e:
-                return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            get_all_orders = GetAllOrdersUseCase(order_repo)
+            orders: List[Order] = get_all_orders.execute()
+            serializer = OrderSerializer(orders, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
     def post(self,request):
         # Verifico que el contenido sea correcto
@@ -50,7 +38,8 @@ class OrderView(APIView):
             items = serializer.validated_data
             order_repo: OrderRepository = DjangoOrderRepository()
             inventory: Inventory = Inventory.get_instance()
-            create_order = CreateOrderUseCase(order_repo, inventory=inventory)
+            promo_repo: PromotionRepository = DjangoPromotionRepository()
+            create_order = CreateOrderUseCase(order_repo, inventory=inventory, promo_repo=promo_repo)
             try:
                 # Creo una nueva ronda y la agrego a la orden
                 round_items = [RoundItem(**item) for item in items]
@@ -64,6 +53,16 @@ class OrderView(APIView):
                 return Response({"error":str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class OrderByIdView(APIView):
+    def get(self, request, uid):
+        order_repo = DjangoOrderRepository()
+        order = order_repo.get_order(uid=uid)
+        if order is None:
+            return Response({"error": "Order not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = OrderSerializer(order)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 class AddRoundView(APIView):
     def post(self, request, uid):
         # Validar el contenido del payload
@@ -78,7 +77,8 @@ class AddRoundView(APIView):
             items = serializer.validated_data
             order_repo: OrderRepository = DjangoOrderRepository()
             inventory: Inventory = Inventory.get_instance()
-            add_round = AddRoundToOrderUseCase(order_repo, inventory)
+            promo_repo: PromotionRepository = DjangoPromotionRepository()
+            add_round = AddRoundToOrderUseCase(order_repo, inventory, promo_repo)
 
             try:
                 round_items = [RoundItem(**item) for item in items]
@@ -112,17 +112,34 @@ class PromotionView(APIView):
         serializer = PromotionSerializer(active_promotions,many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    def post(self,request):
+    def post(self, request):
         serializer = PromotionSerializer(data=request.data)
         if serializer.is_valid():
             promotion_repo: PromotionRepository = DjangoPromotionRepository()
             promotion_data = serializer.validated_data
+            item_name = promotion_data['item_name']
+            new_start = promotion_data['start']
+            new_end = promotion_data['end']
+
+            # Validar superposición con promociones existentes
+            overlapping_promotions = PromotionModel.objects.filter(
+                item_name=item_name,
+                start__lte=new_end,
+                end__gte=new_start
+            )
+            if overlapping_promotions.exists():
+                return Response(
+                    {"error": f"Conflicting promotion for {item_name} in the given time range."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # Crear la promoción si no hay conflictos
             promotion = PromotionModel(**promotion_data)
             try:
                 promotion_repo.add_promotion(promotion)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             except Exception as e:
-                return Response({"error":str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class AddStockView(APIView):

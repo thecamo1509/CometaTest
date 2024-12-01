@@ -1,3 +1,4 @@
+from os import name
 from typing import Optional,List
 from uuid import UUID
 from storage import Inventory
@@ -63,11 +64,12 @@ class DjangoOrderRepository(OrderRepository):
         except OrderModel.DoesNotExist:
             return []
 
-    def _update_order_totals(self,order_model):
+    def _update_order_totals(self, order_model):
         items = RoundItemModel.objects.filter(round__order=order_model).values('name').annotate(
-            total_quantity = models.Sum('quantity')
+            total_quantity=models.Sum('quantity')
         )
         order = Order(
+            uid=order_model.uid,
             created=order_model.created,
             paid=order_model.paid,
             items=[],
@@ -79,18 +81,42 @@ class DjangoOrderRepository(OrderRepository):
                 name=item["name"],
                 price_per_unit=price,
                 quantity=item["total_quantity"]
-                )
+            )
             order_item.calculate_total()
             order.items.append(order_item)
 
-        ## Ahora agregamos las rondas
+        # Agregar las rondas y sus promociones
         rounds = RoundModel.objects.filter(order=order_model)
         for round_model in rounds:
             round_item_models = RoundItemModel.objects.filter(round=round_model)
-            round_items = [RoundItem(name=ri.name,quantity=ri.quantity) for ri in round_item_models]
-            order.rounds.append(Round(created=round_model.created,items=round_items))
+            round_items = [RoundItem(name=ri.name, quantity=ri.quantity) for ri in round_item_models]
 
-        # Calculamos el total sin los descuentos
+            # Obtener promociones asociadas a esta ronda
+            round_promotions = PromotionModel.objects.filter(
+                name__in=[ri.name for ri in round_item_models]
+            ).values('name', 'item_name', 'discount_percentage', 'start', 'end')
+
+            promotions = [
+                Promotion(
+                    name=promo["name"],
+                    discount_percentage=promo["discount_percentage"],
+                    item_name=promo["item_name"],
+                    start=promo["start"],
+                    end=promo["end"],
+                )
+                for promo in round_promotions
+            ]
+
+            # Asegurarnos de pasar las promociones (pueden ser una lista vacía)
+            order.rounds.append(
+                Round(
+                    created=round_model.created,
+                    items=round_items,
+                    promotions=promotions
+                )
+            )
+
+        # Calcular el total sin los descuentos
         order.calculate_total()
         return order
 
@@ -103,11 +129,11 @@ class DjangoOrderRepository(OrderRepository):
                 'paid': order.paid,
                 'subtotal': order.subtotal,
                 'taxes': order.taxes,
-                'discounts': order.discounts,
+                'discounts': order.discounts,  # Guardar descuentos totales
             }
         )
 
-        # Guardar las rondas y sus ítems
+        # Guardar rondas y sus ítems
         for round_instance in order.rounds:
             round_model, round_created = RoundModel.objects.get_or_create(
                 order=order_model,
@@ -125,12 +151,11 @@ class DjangoOrderRepository(OrderRepository):
                     quantity=item.quantity
                 )
 
-        # Guardar promociones asociadas, si existen
-        if hasattr(order, 'promotions') and order.promotions:
-            for promotion in order.promotions:
+            for promotion in round_instance.promotions:
                 PromotionModel.objects.update_or_create(
                     name=promotion.name,
                     defaults={
+                        'item_name': promotion.item_name,
                         'discount_percentage': promotion.discount_percentage,
                         'start': promotion.start,
                         'end': promotion.end
@@ -142,16 +167,18 @@ class DjangoOrderRepository(OrderRepository):
 
     def _convert_to_domain(self, order_model) -> Order:
         items = RoundItemModel.objects.filter(round__order=order_model).values('name').annotate(
-            total_quantity = models.Sum('quantity')
+            total_quantity=models.Sum('quantity')
         )
         order = Order(
             uid=order_model.uid,
             created=order_model.created,
             paid=order_model.paid,
             items=[],
-            rounds=[]
+            rounds=[],
+            subtotal=order_model.subtotal,
+            taxes=order_model.taxes,
+            discounts=order_model.discounts  # Recuperar descuentos totales
         )
-
         for item in items:
             price = self.inventory.get_price(item["name"])
             order_item = OrderItem(
@@ -162,15 +189,40 @@ class DjangoOrderRepository(OrderRepository):
             order_item.calculate_total()
             order.items.append(order_item)
 
-        ## Ahora agregamos las rondas
+        # Recuperar rondas y sus promociones
         rounds = RoundModel.objects.filter(order=order_model)
         for round_model in rounds:
             round_item_models = RoundItemModel.objects.filter(round=round_model)
-            round_items = [RoundItem(name=ri.name,quantity=ri.quantity) for ri in round_item_models]
-            order.rounds.append(Round(created=round_model.created,items=round_items))
+            round_items = [RoundItem(name=ri.name, quantity=ri.quantity) for ri in round_item_models]
 
-        # Calculamos el total sin los descuentos
-        order.calculate_total()
+            # Recuperar promociones asociadas a los ítems de esta ronda
+            promotions = []
+            for round_item in round_item_models:
+                item_promotions = PromotionModel.objects.filter(
+                    item_name=round_item.name,
+                    start__lte=round_model.created,
+                    end__gte=round_model.created
+                )
+                promotions.extend([
+                    Promotion(
+                        name=promo.name,
+                        discount_percentage=promo.discount_percentage,
+                        item_name=promo.item_name,
+                        start=promo.start,
+                        end=promo.end
+                    )
+                    for promo in item_promotions
+                ])
+
+            # Crear la ronda con las promociones asociadas
+            order.rounds.append(
+                Round(
+                    created=round_model.created,
+                    items=round_items,
+                    promotions=promotions  # Asociar las promociones correctamente
+                )
+            )
+
         return order
 
 class DjangoPromotionRepository(PromotionRepository):
@@ -180,6 +232,7 @@ class DjangoPromotionRepository(PromotionRepository):
         for promo in promos:
             promosList.append(Promotion(
                 name=promo.name,
+                item_name=promo.item_name,
                 discount_percentage=promo.discount_percentage,
                 start=promo.start,
                 end=promo.end
@@ -189,6 +242,7 @@ class DjangoPromotionRepository(PromotionRepository):
     def add_promotion(self, promotion: Promotion) -> None:
         PromotionModel.objects.create(
             name=promotion.name,
+            item_name=promotion.item_name,
             discount_percentage=promotion.discount_percentage,
             start=promotion.start,
             end=promotion.end

@@ -4,15 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:backend": "cd apps/backend && python manage.py runserver",
-    "dev:frontend": "pnpm --filter frontend dev",
-    "dev": "pnpm -r run dev"
+    "clean:backend": "rm -f apps/backend/db.sqlite",
+    "migrate:backend": "cd apps/backend && ./venv/bin/python manage.py migrate",
+    "start:backend": "cd apps/backend && ./venv/bin/python manage.py runserver",
+    "start:frontend": "pnpm --filter frontend dev",
+    "prepare:backend": "pnpm clean:backend && pnpm migrate:backend",
+    "dev:backend": "pnpm prepare:backend && pnpm start:backend",
+    "dev": "concurrently -k -n backend,frontend -c blue,green \"pnpm dev:backend\" \"pnpm start:frontend\""
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "eslint": "^9.16.0",
-    "prettier": "^3.4.1"
+    "prettier": "^3.4.1",
+    "concurrently": "^7.6.0"
   }
 }

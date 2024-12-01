@@ -10,9 +10,16 @@ class OrderItemSerializer(serializers.Serializer):
     quantity = serializers.IntegerField()
     total = serializers.FloatField()
 
+class PromotionSerializer(serializers.Serializer):
+    name = serializers.CharField(max_length=100)
+    item_name = serializers.CharField(max_length=100)
+    discount_percentage = serializers.FloatField()
+    start = serializers.DateTimeField()
+    end = serializers.DateTimeField()
 class RoundSerializer(serializers.Serializer):
     created = serializers.DateTimeField()
     items = RoundItemSerializer(many=True)
+    promotions = PromotionSerializer(many=True)
 
 class OrderSerializer(serializers.Serializer):
     uid = serializers.UUIDField()
@@ -24,11 +31,7 @@ class OrderSerializer(serializers.Serializer):
     items = OrderItemSerializer(many=True)
     rounds = RoundSerializer(many=True)
 
-class PromotionSerializer(serializers.Serializer):
-    name = serializers.CharField(max_length=100)
-    discount_percentage = serializers.FloatField()
-    start = serializers.DateTimeField()
-    end = serializers.DateTimeField()
+
 
 ### Este es un serializer que se usa para la API de agregar stock
 class AddStockSerializer(serializers.Serializer):
