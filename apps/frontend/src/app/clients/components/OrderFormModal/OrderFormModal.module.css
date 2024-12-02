@@ -1,0 +1,7 @@
+.modalHeader{
+    @apply text-2xl font-bold;
+}
+
+.actionBtn{
+    @apply bg-primary py-3 rounded-full text-white font-bold my-8;
+}

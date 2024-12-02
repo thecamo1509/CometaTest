@@ -48,14 +48,24 @@ class DjangoOrderRepository(OrderRepository):
         # Actualizar totales y devolver la orden
         return self._update_order_totals(order_model)
     
-    def mark_as_paid(self) -> Order:
+    def mark_as_paid(self, order_id: UUID) -> Order:
         try:
-            order_model = OrderModel.objects.get(paid=False)
+            order_model = OrderModel.objects.get(uid=order_id)
+
+            if order_model.paid:
+                raise ValueError(f"La orden con id {order_id} ya está pagada.")
+
             order_model.paid = True
             order_model.save()
-            return self._convert_to_domain(order_model)
+
+            order = self._convert_to_domain(order_model)
+            order.calculate_total()
+
+            return order
         except OrderModel.DoesNotExist:
-            raise Exception("No hay una ordern activa para marcar como pagada")
+            raise ValueError(f"La orden con id {order_id} no existe.")
+        except Exception as e:
+            raise Exception(f"Error al marcar la orden como pagada: {str(e)}")
     
     def get_all_orders(self) -> List[Order]:
         try:

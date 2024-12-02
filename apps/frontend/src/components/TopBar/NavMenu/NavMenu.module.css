@@ -1,0 +1,11 @@
+.root{
+    @apply flex justify-between gap-6;
+}
+
+.item{
+    @apply text-lg text-white font-medium;
+}
+
+.item:hover{
+    @apply underline;
+}

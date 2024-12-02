@@ -1,0 +1,20 @@
+.root{
+    @apply text-center;
+}
+
+.auxTitle{
+    @apply text-primary text-xl font-medium;
+}
+
+.title{
+    @apply text-black text-4xl font-light my-4;
+}
+
+.strong{
+    @apply font-bold;
+}
+
+.flexContainer{
+    @apply flex justify-between items-center gap-6 h-full max-h-72 flex-wrap my-12;
+}
+

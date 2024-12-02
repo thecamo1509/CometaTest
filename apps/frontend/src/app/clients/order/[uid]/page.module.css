@@ -1,0 +1,63 @@
+.root{
+    @apply  bg-white shadow-sm rounded-xl p-8 min-w-[800px];
+}
+
+.title{
+    @apply text-4xl font-bold mb-4;
+}
+
+.flexContainer{
+    @apply flex justify-between items-center my-4;
+}
+
+.tableContainer{
+    @apply flex justify-between items-center my-4;
+}
+
+.summaryTableHeader{
+    @apply flex justify-between font-bold;
+}
+
+.summaryRow{
+    @apply flex justify-between font-normal
+}
+
+.tableHead{
+    @apply font-semibold text-black;
+}
+
+.roundRoot{
+    @apply bg-white my-4 p-6 rounded-lg;
+}
+
+.subtitle{
+    @apply text-xl font-semibold my-4;
+}
+
+.strong{
+    @apply font-bold
+}
+
+.badge{
+    @apply rounded-full;
+}
+
+.danger{
+    @apply bg-red-400 text-white;
+}
+
+.success{
+    @apply bg-green-500 text-white
+}
+
+.promoContainer{
+    @apply flex justify-between gap-6 text-sm bg-slate-50 border border-slate-200 px-4 py-4 rounded-xl w-full relative;
+}
+
+.innerbadge{
+    @apply  relative;
+}
+
+.badge{
+    @apply bg-green-500 rounded-2xl top-[-10px] px-4  absolute right-0 text-white;
+}

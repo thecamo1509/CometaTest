@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean:backend": "rm -f apps/backend/db.sqlite",
+    "clean:backend": "rm -f apps/backend/db.sqlite3",
     "migrate:backend": "cd apps/backend && ./venv/bin/python manage.py migrate",
     "start:backend": "cd apps/backend && ./venv/bin/python manage.py runserver",
     "start:frontend": "pnpm --filter frontend dev",

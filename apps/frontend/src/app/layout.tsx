@@ -1,11 +1,6 @@
-import type { Metadata } from "next";
+import { TopBar } from "@/components/TopBar/TopBar";
 import "./globals.css";
 
-
-export const metadata: Metadata = {
-  title: "Prueba tecnica Cometa",
-  description: "Probando mis skills tecnicas",
-};
 
 export default function RootLayout({
   children,
@@ -17,7 +12,13 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
+        <TopBar/>
+        <div className="max-w-screen-2xl mx-auto py-12">
         {children}
+        </div>
+        <div className='mx-auto fixed bottom-0 right-[38%]'>
+        <small >Desarrollado con ❤️ por <a href="https://github.com/thecamo1509" target="_blank" rel="noreferrer">Camilo Morales</a> Posdata: <strong className="text-transparent">Contratenme 😃</strong></small>
+      </div>
       </body>
     </html>
   );

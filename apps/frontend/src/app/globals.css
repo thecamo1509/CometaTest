@@ -1,21 +1,74 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+ 
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #f9f9f9; 
+    --foreground: #2a2a2a; 
+    --muted: #f0f4f9; 
+    --muted-foreground: #757575; 
+    --popover: #ffffff;
+    --popover-foreground: #2a2a2a; 
+    --border: #d9e0eb; 
+    --input: #d9e0eb; 
+    --card: #ffffff; 
+    --card-foreground: #2a2a2a;
+    --primary: #ff389b;
+    --primary-foreground: #eaf5ff;
+    --secondary: #873aff;
+    --secondary-foreground: #2a2a2a; 
+    --accent: #f0f4f9;
+    --accent-foreground: #2a2a2a; 
+    --destructive: #ff0000; 
+    --destructive-foreground: #eaf5ff; 
+    --ring: #8ca4b7;
+    --radius: 0.5rem; 
+  }
+  
+  .dark {
+    --background: #0d0d0d; 
+    --foreground: #d6d6d6; 
+    --muted: #1c1c1c; 
+    --muted-foreground: #909090; 
+    --accent: #292929; 
+    --accent-foreground: #eaf5ff;
+    --popover: #0d0d0d;
+    --popover-foreground: #8ca4b7; 
+    --border: #292929;
+    --input: #292929; 
+    --card: #0d0d0d; 
+    --card-foreground: #d6d6d6; 
+    --primary: #eaf5ff; 
+    --primary-foreground: #070707; 
+    --secondary: #2a2a2a; 
+    --secondary-foreground: #eaf5ff; 
+    --destructive: #a00000; 
+    --destructive-foreground: #eaf5ff; 
+    --ring: #292929; 
   }
 }
 
+html,body{
+  height: 100%;
+}
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  min-height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 }
+
+#root, main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  min-height: 100vh;
+}
+
+next-route-announcer{
+  display:none;
+  }

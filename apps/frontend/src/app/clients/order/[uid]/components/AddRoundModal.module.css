@@ -1,0 +1,11 @@
+.modalHeader{
+    @apply text-2xl font-bold;
+}
+
+.btn{
+    @apply bg-primary text-white rounded-full px-8 font-medium cursor-pointer py-2;
+}
+
+.dialog{
+    @apply max-w-[600px];
+}

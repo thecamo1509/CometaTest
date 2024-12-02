@@ -1,0 +1,19 @@
+.root{
+    @apply border border-2 border-slate-200 p-2 w-[150px]  rounded-xl;
+}
+
+.flexContainer{
+    @apply flex flex-col justify-between items-center gap-6;
+}
+
+.label{
+    @apply text-base font-medium;
+}
+
+.radio{
+    @apply border-slate-200 bg-white;
+}
+
+.image{
+    @apply max-w-[80px] h-[80px] object-contain; 
+}

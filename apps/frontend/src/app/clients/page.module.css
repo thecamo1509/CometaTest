@@ -1,0 +1,15 @@
+.title{
+    @apply text-3xl font-light ;
+}
+
+.strong{
+    @apply font-bold;
+}
+
+.flexContainer{
+    @apply flex flex-col justify-center my-12;
+}
+
+.description{
+    @apply text-center
+}

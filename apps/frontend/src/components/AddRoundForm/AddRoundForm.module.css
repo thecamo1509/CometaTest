@@ -1,0 +1,35 @@
+.formContainer{
+    @apply flex flex-col gap-4;
+}
+
+.skeletonInput{
+    @apply h-8 w-full bg-gray-100;
+}
+
+.button{
+    @apply bg-primary rounded-full
+}
+
+.disabled{
+    @apply bg-slate-100 rounded-full cursor-not-allowed text-slate-400;
+}
+
+.error{
+    @apply bg-red-200 border  text-red-700 rounded-md px-6 py-2
+}
+
+.flexContainer{
+    @apply flex justify-between gap-6;
+}
+
+.cardContainer{
+    @apply flex flex-col gap-2 border border-slate-300 items-center p-4 rounded-lg;
+}
+
+.image{
+    @apply w-24 h-24 object-contain
+}
+
+.input{
+    @apply w-full my-4;
+}

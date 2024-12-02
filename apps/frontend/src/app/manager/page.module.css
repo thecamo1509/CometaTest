@@ -1,0 +1,39 @@
+.root{
+    @apply bg-white shadow-sm p-6 rounded-xl w-[800px] flex flex-col  mb-8;
+}
+
+.title{
+    @apply text-3xl font-bold;
+}
+
+.flexContainer{
+    @apply flex justify-between gap-4 my-8 items-center;
+}
+
+.rowContainer{
+    @apply flex flex-col gap-6;
+}
+
+.infoContainer{
+    @apply w-48 border border-slate-200 rounded-lg flex flex-col p-4 justify-center items-center;
+}
+
+.image{
+    @apply w-24 h-24 object-contain mb-4;
+}
+
+.itemTitle{
+    @apply text-base;
+}
+
+.strong{
+    @apply font-bold
+}
+
+.promoContainer{
+    @apply flex justify-between gap-6 text-sm bg-slate-50 border border-slate-200 px-4 py-4 rounded-xl w-full relative;
+}
+
+.badge{
+    @apply bg-green-500 rounded-2xl top-[-10px] px-4  absolute right-0 text-white;
+}

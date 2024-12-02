@@ -1,0 +1,7 @@
+.btn{
+    @apply bg-primary text-white rounded-full px-8 font-medium cursor-pointer py-2;
+}
+
+.title{
+    @apply text-2xl font-bold;
+}

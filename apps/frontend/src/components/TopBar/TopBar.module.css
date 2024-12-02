@@ -1,0 +1,7 @@
+.root{
+    @apply bg-gradient-to-r from-[#FE985C] via-[#F863B5] to-[#9F62FD] shadow-sm p-6 flex justify-between items-center;
+}
+
+.title{
+    @apply text-2xl text-white font-bold
+}

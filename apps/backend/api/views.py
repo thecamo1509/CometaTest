@@ -46,7 +46,7 @@ class OrderView(APIView):
                 order = create_order.execute(round_items)
                 print("Order",order.__dict__)
                 order_serializer = OrderSerializer(order)
-                return Response(order_serializer.data, status=status.HTTP_200_OK)
+                return Response(order_serializer.data, status=status.HTTP_201_CREATED)
             except ValueError as ve:
                 return Response({"error":str(ve)},status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
@@ -95,14 +95,25 @@ class AddRoundView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PayOrderView(APIView):
-    def post(self,request):
+    def post(self, request):
         order_repo: OrderRepository = DjangoOrderRepository()
+        order_id = request.data.get("orderId") 
+
+        if not order_id:
+            return Response(
+                {"error": "El campo 'orderId' es obligatorio."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
         try:
-            order = order_repo.mark_as_paid()
+            # Marcar la orden como pagada
+            order = order_repo.mark_as_paid(order_id)
             order_serializer = OrderSerializer(order)
             return Response(order_serializer.data, status=status.HTTP_200_OK)
+        except ValueError as e:
+            return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({"error":str(e)},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class PromotionView(APIView):
     def get(self,request):
@@ -129,7 +140,7 @@ class PromotionView(APIView):
             )
             if overlapping_promotions.exists():
                 return Response(
-                    {"error": f"Conflicting promotion for {item_name} in the given time range."},
+                    {"error": f"Ya hay un promo vigente para {item_name} en este periodo"},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 

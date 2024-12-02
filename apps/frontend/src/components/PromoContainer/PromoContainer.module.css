@@ -1,0 +1,63 @@
+.root {
+    @apply w-full h-[300px] p-4 flex justify-between items-center gap-4 rounded-xl flex-grow max-w-[32%];
+}
+
+.content{
+    @apply flex flex-col justify-between h-full py-6 max-w-[50%];
+}
+
+.left{
+    @apply text-left
+}
+
+.right{
+    @apply text-right;
+}
+
+.title{
+    @apply text-2xl font-bold;
+}
+
+.subtitle{
+    @apply overflow-auto;
+}
+
+.primary{
+    @apply bg-primary text-white;
+}
+
+.secondary{
+    @apply bg-secondary text-white;
+}
+
+.accent{
+    @apply bg-accent
+}
+
+.right{
+    @apply order-2;
+}
+
+.image{
+    @apply max-w-full
+}
+
+.btn{
+    @apply rounded-full my-4 font-bold;
+}
+
+.primary-btn{
+    @apply bg-white text-primary;
+}
+
+.secondary-btn{
+    @apply bg-white text-secondary;
+}
+
+.accent-btn{
+    @apply bg-gray-800;
+}
+
+.image{
+   @apply w-fit
+}
