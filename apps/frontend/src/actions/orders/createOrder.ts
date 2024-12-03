@@ -1,7 +1,8 @@
 import { OrderApiAdapter } from "@/adapters/backendApi/OrderApiAdapter"
-import { Order } from "@/core/entities/Order"
+import { OrderPayload } from "@/adapters/backendApi/OrderApiAdapter.types"
 
-export async function createOrder(order:any){
+export async function createOrder(order:OrderPayload){
     const orderAdapter = new OrderApiAdapter()
-    return await orderAdapter.createOrder(order)
+    const result = await orderAdapter.createOrder(order)
+    return result
 }

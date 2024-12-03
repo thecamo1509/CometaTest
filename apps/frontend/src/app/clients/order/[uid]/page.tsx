@@ -74,7 +74,10 @@ export default async function OrderSpecificPage({
         <div>
             <div className={styles.flexContainer}>
                 <h1 className={styles.subtitle}>Rondas de cervezas:</h1>
-                <AddRoundModal orderId={uid} />
+                {
+                    order.paid === false &&
+                    <AddRoundModal orderId={uid} />
+                }
             </div>
             {
                 order.rounds.map((round)=>(

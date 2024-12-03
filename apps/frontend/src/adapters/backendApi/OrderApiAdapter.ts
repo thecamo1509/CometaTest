@@ -2,7 +2,6 @@
 import { IOrderRepository } from "@/core/interfaces/repositories/IOrderRepository";
 import { OrderApi, OrderApiError, OrderPayload } from "./OrderApiAdapter.types";
 import { Order, RoundItem } from "@/core/entities/Order";
-import { revalidatePath } from "next/cache";
 
 export class OrderApiAdapter implements IOrderRepository {
     private readonly apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -54,7 +53,6 @@ export class OrderApiAdapter implements IOrderRepository {
             throw new Error('Error fetching order')
         }
         const data = await response.json()
-        revalidatePath(`/clients/order/${data.uid}`)
         return this.mapToOrder(data);
     }
 
