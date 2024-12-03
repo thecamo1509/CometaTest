@@ -13,7 +13,7 @@ export default function AddRoundModal(props: { orderId: string }) {
     }
     return (
         <Dialog open={isOpen} onOpenChange={setIsOpen}>
-            <DialogTrigger className={styles.btn}>Crear una orden de cervezas</DialogTrigger>
+            <DialogTrigger className={styles.btn}>Nueva ronda</DialogTrigger>
             <DialogContent className={styles.dialog} >
                 <DialogHeader>Crea una nueva orden de cerveza</DialogHeader>
                 <AddRoundForm orderId={orderId} onSubmit={onSubmit} />

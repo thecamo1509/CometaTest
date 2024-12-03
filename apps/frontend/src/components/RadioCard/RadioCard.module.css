@@ -1,5 +1,5 @@
 .root{
-    @apply border border-2 border-slate-200 p-2 w-[150px]  rounded-xl;
+    @apply border border-2 border-slate-200 p-2 max-w-full md:w-[150px]  rounded-xl;
 }
 
 .flexContainer{

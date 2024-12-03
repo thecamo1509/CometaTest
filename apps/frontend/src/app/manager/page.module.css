@@ -1,9 +1,9 @@
 .root{
-    @apply bg-white shadow-sm p-6 rounded-xl w-[800px] flex flex-col  mb-8;
+    @apply bg-white shadow-sm p-6 rounded-xl max-w-full md:w-[800px] flex flex-col  mb-8;
 }
 
 .title{
-    @apply text-3xl font-bold;
+    @apply text-lg md:text-3xl font-bold;
 }
 
 .flexContainer{
@@ -11,7 +11,7 @@
 }
 
 .summaryContainer{
-    @apply mt-8
+    @apply md:flex-row flex-col mt-8;
 }
 
 .rowContainer{

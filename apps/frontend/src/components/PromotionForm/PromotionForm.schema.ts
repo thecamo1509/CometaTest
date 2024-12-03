@@ -7,12 +7,16 @@ export const PromotionFormSchema = z.object({
     invalid_type_error: "El nombre del producto debe ser válido.",
   }),
   discount_percentage: z
-    .number({
-      required_error: "El porcentaje de descuento es obligatorio.",
-      invalid_type_error: "El porcentaje de descuento debe ser un número.",
-    })
-    .min(0, "El porcentaje de descuento no puede ser negativo.")
-    .max(100, "El porcentaje de descuento no puede exceder el 100%."),
+    .preprocess(
+      (value) => (typeof value === "string" ? parseFloat(value) : value),
+      z
+        .number({
+          required_error: "El porcentaje de descuento es obligatorio.",
+          invalid_type_error: "El porcentaje de descuento debe ser un número.",
+        })
+        .min(1, "El porcentaje de descuento debe ser al menos 1%.")
+        .max(100, "El porcentaje de descuento no puede exceder el 100%.")
+    ),
   start: z.date({
     required_error: "La fecha y hora de inicio son obligatorias.",
     invalid_type_error: "La fecha y hora de inicio deben ser válidas.",
@@ -26,7 +30,8 @@ export const PromotionFormSchema = z.object({
     ctx.addIssue({
       code: "custom",
       path: ["end"],
-      message: "La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.",
+      message:
+        "La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.",
     });
   }
 });

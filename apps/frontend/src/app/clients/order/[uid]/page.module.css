@@ -1,17 +1,21 @@
 .root{
-    @apply  bg-white shadow-sm rounded-xl p-8 min-w-[800px];
+    @apply  bg-white shadow-sm rounded-xl p-8 min-w-[0] w-full md:w-[800px] ;
 }
 
 .title{
-    @apply text-4xl font-bold mb-4;
+    @apply text-lg md:text-4xl font-bold mb-4;
 }
 
 .flexContainer{
-    @apply flex justify-between items-center my-4;
+    @apply flex md:flex-row justify-between md:justify-between items-center my-4;
+}
+
+.innerContainer{
+    @apply max-w-[40%] md:max-w-[50%]
 }
 
 .tableContainer{
-    @apply flex justify-between items-center my-4;
+    @apply flex justify-start  md:justify-between  items-start my-4;
 }
 
 .summaryTableHeader{
@@ -26,10 +30,17 @@
     @apply w-full flex justify-start;
 }
 
+.start1{
+    @apply hidden md:block
+}
+
 .tableHead{
     @apply font-semibold text-black;
 }
 
+.altTitle{
+    @apply text-sm mb-4;
+}
 .roundRoot{
     @apply bg-white my-4 p-6 rounded-lg;
 }
@@ -58,12 +69,16 @@
     @apply flex justify-between gap-6 text-sm bg-slate-50 border border-slate-200 px-4 py-4 rounded-xl w-full relative;
 }
 
+.tableLayout{
+    @apply hidden md:block
+}
+
 .image{
-    @apply w-20 h-20 object-contain;
+    @apply w-20 h-20 object-contain hidden md:block;
 }
 
 .innerbadge{
-    @apply  relative;
+    @apply relative max-h-10;
 }
 
 .badge{

@@ -3,7 +3,7 @@
 }
 
 .auxTitle{
-    @apply text-primary text-xl font-medium;
+    @apply text-primary text-xl font-medium ;
 }
 
 .title{

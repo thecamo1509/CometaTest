@@ -125,6 +125,7 @@ export const PromotionForm = (props: { onSubmit: () => Promise<void> }) => {
                     className={styles.input}
                     type="number"
                     min={1}
+                    max={100}
                     placeholder="Porcentaje de descuento"
                     {...field}
                   />

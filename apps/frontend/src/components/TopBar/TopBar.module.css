@@ -3,5 +3,5 @@
 }
 
 .title{
-    @apply text-2xl text-white font-bold
+    @apply hidden text-2xl text-white font-bold md:block;
 }

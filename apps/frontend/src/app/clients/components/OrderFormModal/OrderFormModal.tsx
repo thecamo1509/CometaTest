@@ -11,9 +11,9 @@ const OrderForm = dynamic(()=> import('@/components/OrderForm/OrderForm'), {ssr:
 export const OrderFormModal = () => {
 
     return (
-        <Dialog>
+        <Dialog >
             <DialogTrigger className={styles.actionBtn}>Crear una orden de cervezas</DialogTrigger>
-            <DialogContent>
+            <DialogContent className={styles.modalContent}>
                 <DialogHeader className={styles.modalHeader} >Crea una nueva orden de cerveza</DialogHeader>
                 <OrderForm />
             </DialogContent>

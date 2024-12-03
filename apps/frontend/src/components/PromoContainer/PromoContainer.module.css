@@ -1,5 +1,5 @@
 .root {
-    @apply w-full h-[300px] p-4 flex justify-between items-center gap-4 rounded-xl flex-grow max-w-[32%];
+    @apply w-full max-w-full h-[300px] p-4 flex justify-between items-center gap-4 rounded-xl flex-grow md:max-w-[32%];
 }
 
 .content{

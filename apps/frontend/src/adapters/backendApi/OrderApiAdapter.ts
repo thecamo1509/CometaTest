@@ -56,7 +56,7 @@ export class OrderApiAdapter implements IOrderRepository {
         return this.mapToOrder(data);
     }
 
-    async addRound(orderId:string, items: RoundItem[]): Promise<Order> {
+    async addRound(orderId:string, items: RoundItem[]): Promise<Order | OrderApiError> {
         const response = await fetch(`${this.apiBaseUrl}/api/order/${orderId}/add-round`, {
             method: 'POST',
             headers: {
@@ -64,10 +64,13 @@ export class OrderApiAdapter implements IOrderRepository {
             },
             body: JSON.stringify(items)
         })
-        if(!response.ok){
-            throw new Error('Error adding round')
-        }
         const data = await response.json()
+        if("error" in data){
+            return {
+                "error": data.error,
+                "status": response.status
+            }
+        }
         return this.mapToOrder(data);
     }
 

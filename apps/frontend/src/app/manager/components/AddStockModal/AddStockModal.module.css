@@ -1,5 +1,5 @@
 .btn{
-    @apply bg-primary text-white rounded-full px-8 font-medium cursor-pointer py-2;
+    @apply bg-primary text-white rounded-full px-8 font-medium cursor-pointer py-2 min-w-[50%] md:min-w-0;
 }
 
 .title{

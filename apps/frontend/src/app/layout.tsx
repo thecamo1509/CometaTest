@@ -10,15 +10,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`antialiased`}
+        className={`antialiased flex flex-col justify-start md:justify-between`}
       >
         <TopBar/>
-        <div className="max-w-screen-2xl mx-auto py-12">
-        {children}
+        <div className="max-w-screen md:max-w-screen-2xl py-12 px-4 mx-auto">
+          {children}
         </div>
-        <div className='mx-auto fixed bottom-0 right-[38%]'>
-        <small >Desarrollado con ❤️ por <a href="https://github.com/thecamo1509" target="_blank" rel="noreferrer">Camilo Morales</a> Posdata: <strong className="text-transparent">Contratenme 😃</strong></small>
-      </div>
+        <div className='hidden md:flex justify-center my-4 bottom-0'>
+          <small >Desarrollado con ❤️ por <a href="https://github.com/thecamo1509" target="_blank" rel="noreferrer">Camilo Morales</a> Posdata: <strong className="text-slate-300/30">Contratenme 😃</strong></small>
+        </div>
       </body>
     </html>
   );

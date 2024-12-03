@@ -6,7 +6,6 @@ import { revalidatePath } from "next/cache"
 export async function addRoundToOrder(orderId:string, items: Array<RoundItem>){
     const orderAdapter = new OrderApiAdapter()
     const result = await orderAdapter.addRound(orderId, items)
-    console.log("RESULT", result)
     revalidatePath(`/clients/order/${orderId}`)
     return result
 }

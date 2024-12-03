@@ -3,7 +3,6 @@ import { RadioGroupItem } from "../ui/radio-group"
 import { RadioCardProps } from "./RadioCard.types"
 import styles from './RadioCard.module.css'
 import Image from "next/image"
-import { useRef, useState } from "react"
 
 export const RadioCard = ({value, imgSrc, label}: RadioCardProps) => {
 

@@ -13,3 +13,7 @@
 .description{
     @apply text-center
 }
+
+.titleContainer{
+    @apply flex flex-col justify-center text-center;
+}

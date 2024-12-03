@@ -1,7 +1,7 @@
 "use client"
 import { markAsPaid } from "@/actions/orders/markAsPaid"
 import { Button } from "@/components/ui/button"
-
+import styles from './MarkAsPaidButton.module.css'
 
 export default function MarkAsPaidButton(props: { orderId: string }) {
     const { orderId } = props
@@ -12,6 +12,6 @@ export default function MarkAsPaidButton(props: { orderId: string }) {
         }
     }
     return (
-        <Button type="button" onClick={pay}>Pagar</Button>
+        <Button className={styles.btn} type="button" onClick={pay}>Pagar</Button>
     )
 }

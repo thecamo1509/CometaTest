@@ -27,26 +27,29 @@ export default async function OrderSpecificPage({
         <>
         <div className={styles.root}>
             <div className={styles.flexContainer}>
-                <h1 className={styles.title}>Detalles de la orden</h1>
+                <div className={styles.innerContainer}>
+                    <h1 className={styles.title}>Detalles de la orden</h1>
+                </div>
+                <div className={styles.innerContainer}>
                 {
                     order.paid === false &&
                     <MarkAsPaidButton orderId={uid} />
                 }
+                </div>
             </div>
             <div className={styles.flexContainer}>
-                <div>
-                    <h6><strong className={styles.strong}>Order ID:</strong> {order.uid}</h6>
-                    <h6>{format(new Date(order.created), "dd 'de' MMMM 'de' yyyy, HH:mm:ss", { locale: es })}</h6>
+                <div className={styles.innerContainer}>
+                    <h6 className={styles.altTitle}><strong className={styles.strong}>Order ID:</strong> {order.uid}</h6>
+                    <h6 className={styles.altTitle}>{format(new Date(order.created), "dd 'de' MMMM 'de' yyyy, HH:mm:ss", { locale: es })}</h6>
                 </div>
                 <Badge className={cn(styles.innerbadge, order.paid ? styles.success : styles.danger)}>{order.paid ? 'Paga' : 'Pendiente por pagar'}</Badge>
             </div>
             <div className={styles.flexContainer}>
-                <div>
-
+                <div className={styles.innerContainer}>
                     <h6><strong className={styles.strong}>Impuestos: </strong> ${order.taxes}</h6>
                     <h6><strong className={styles.strong}>Descuentos: </strong>${order.discounts}</h6>
                 </div>
-                <div>
+                <div className={styles.innerContainer}>
                     <h6><strong className={styles.strong}>Total con deducciones: </strong>${order.subtotal + order.taxes - order.discounts}</h6>
                 </div>
                 
@@ -56,30 +59,31 @@ export default async function OrderSpecificPage({
                 <div>
                     <p>Un resumen de todas tus rondas de cerveza</p>
                 </div>
-                <>
-                                    <div className={styles.tableContainer} >
-                                        <div className={styles.start}>
+                <div className={styles.tableLayout}>
+                            <div className={styles.tableContainer} >
+                                <div className={styles.start}>
 
-                                        </div>
-                                    <div className={styles.start}>
-                                        <p><strong>Cerveza</strong></p>
-                                    </div>
-                                    <div className={styles.start}>
-                                        <p><strong>Cantidad</strong></p>
-                                    </div>
-                                    <div className={styles.start}>
-                                        <p><strong>Precio unitario</strong></p>
-                                    </div>
-                                    <div className={styles.start}>
-                                        <p><strong>Cerveza</strong></p>
-                                    </div>
                                 </div>
-                                </>
+                            <div className={styles.start}>
+                                <p><strong>Cerveza</strong></p>
+                            </div>
+                            <div className={styles.start}>
+                                <p><strong>Cantidad</strong></p>
+                            </div>
+                            <div className={styles.start}>
+                                <p><strong>Precio unitario</strong></p>
+                            </div>
+                            <div className={styles.start}>
+                                <p><strong>Cerveza</strong></p>
+                            </div>
+                        </div>
+                </div>
+                        
                         {
                             order.items.map((item)=>(
           
                                 <div className={styles.tableContainer} key={`${item.name}-${item.quantity}`}>
-                                    <div className={styles.start}>
+                                    <div className={styles.start1}>
                                         <Image className={styles.image} src={ITEM_MAPPER[item.name as keyof typeof ITEM_MAPPER]} alt={item.name} width={100} height={100} />
                                     </div>
                                     <div className={styles.start}>
@@ -102,11 +106,15 @@ export default async function OrderSpecificPage({
         </div>
         <div>
             <div className={styles.flexContainer}>
+                <div className={styles.innerContainer}>
                 <h1 className={styles.subtitle}>Rondas de cervezas:</h1>
+                </div>
+                <div className={styles.innerContainer}>
                 {
                     order.paid === false &&
                     <AddRoundModal orderId={uid} />
                 }
+                </div>
             </div>
             {
                 order.rounds.map((round)=>(
@@ -124,7 +132,7 @@ export default async function OrderSpecificPage({
                                 <div>
                                     {
                                         round.items.map((item)=>(
-                                            <div className={styles.tableContainer} key={`${item.name}-${item.quantity}`}>
+                                            <div className={styles.summaryRow} key={`${item.name}-${item.quantity}`}>
                                                 <p><strong>Cerveza: </strong>{item.name}</p>
                                                 <p><strong>Cantidad: </strong>{item.quantity}</p>
                                             </div>
