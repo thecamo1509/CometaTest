@@ -8,10 +8,10 @@ export class OrderApiAdapter implements IOrderRepository {
 
     async getOrders():Promise<Order[]> {
         const response = await fetch(`${this.apiBaseUrl}/api/order`)
-        if(!response.ok){
-            throw new Error('Error fetching orders',)
-        }
         const data = await response.json()
+        if("error" in data){
+            return []
+        }
         return data.map((item: OrderApi) => this.mapToOrder(item));
 
     }

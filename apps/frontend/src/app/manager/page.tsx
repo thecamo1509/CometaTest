@@ -44,7 +44,7 @@ export default async function ManagerPage() {
                 </div>
                 <AddPromotionModal />
             </div>
-            <div className={cn(styles.flexContainer,styles.summaryContainer)}> 
+            <div className={cn(styles.summaryContainer)}> 
                 {
                     promotions.length === 0 ? <p>No hay promociones activas</p> :
                     promotions.map((promotion) => (
@@ -65,7 +65,7 @@ export default async function ManagerPage() {
                     <h1 className={styles.title}>Ordenes Abiertas</h1>
                 </div>
             </div>
-            <div className={cn(styles.flexContainer,styles.summaryContainer)}> 
+            <div className={cn(styles.summaryContainer)}> 
                 {
                     orders.length === 0 ? <p>No hay ordenes abiertas</p> :
                     orders.map((order) => (
