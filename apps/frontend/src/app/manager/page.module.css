@@ -7,7 +7,11 @@
 }
 
 .flexContainer{
-    @apply flex justify-between gap-4 my-8 items-center;
+    @apply flex justify-between gap-4 items-center;
+}
+
+.summaryContainer{
+    @apply mt-8
 }
 
 .rowContainer{
@@ -32,6 +36,10 @@
 
 .promoContainer{
     @apply flex justify-between gap-6 text-sm bg-slate-50 border border-slate-200 px-4 py-4 rounded-xl w-full relative;
+}
+
+.link{
+    @apply text-blue-500 underline;
 }
 
 .badge{

@@ -13,14 +13,12 @@ import { z } from "zod";
 import { PromotionFormSchema } from "./PromotionForm.schema";
 import { Input } from "../ui/input";
 import styles from "./PromotionForm.module.css";
-import { AddPromotionPayload } from "@/adapters/backendApi/PromotionApiAdapter.types";
 import { RadioGroup } from "../ui/radio-group";
 import { RadioCard } from "../RadioCard/RadioCard";
 import { ITEM_MAPPER } from "@/app/constants";
 import { Button } from "../ui/button";
 import { DateTimePicker } from "../ui/datetimepicker";
 import { addPromotion } from "@/actions/promotions/addPromotion";
-import { set } from "date-fns";
 import { useState } from "react";
 
 export const PromotionForm = (props: { onSubmit: () => Promise<void> }) => {

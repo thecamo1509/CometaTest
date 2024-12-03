@@ -22,6 +22,10 @@
     @apply flex justify-between font-normal
 }
 
+.start{
+    @apply w-full flex justify-start;
+}
+
 .tableHead{
     @apply font-semibold text-black;
 }
@@ -52,6 +56,10 @@
 
 .promoContainer{
     @apply flex justify-between gap-6 text-sm bg-slate-50 border border-slate-200 px-4 py-4 rounded-xl w-full relative;
+}
+
+.image{
+    @apply w-20 h-20 object-contain;
 }
 
 .innerbadge{

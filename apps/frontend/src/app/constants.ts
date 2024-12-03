@@ -30,7 +30,7 @@ export const DEFAULT_PROMOTION_CONTAINERS: Array<PromoContainerProps> = [
         imgSrc: 'https://licoresbrisasdejuanchito.com/wp-content/uploads/2021/04/C-47.png',
         imgAlt: 'Cometa Logo',
         btnText: 'Hacer un pedido',
-        btnHref: '/clientes',
+        btnHref: '/clients',
         color: 'secondary',
         contentPlacement: 'right'
     },

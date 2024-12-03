@@ -43,11 +43,11 @@ export default async function OrderSpecificPage({
             <div className={styles.flexContainer}>
                 <div>
 
-                    <h6><strong className={styles.strong}>Impuestos:</strong> ${order.taxes}</h6>
-                    <h6><strong className={styles.strong}>Descuentos:</strong>${order.discounts}</h6>
+                    <h6><strong className={styles.strong}>Impuestos: </strong> ${order.taxes}</h6>
+                    <h6><strong className={styles.strong}>Descuentos: </strong>${order.discounts}</h6>
                 </div>
                 <div>
-                    <h6><strong className={styles.strong}>Total hasta el momento:</strong>${order.subtotal - order.discounts}</h6>
+                    <h6><strong className={styles.strong}>Total con deducciones: </strong>${order.subtotal + order.taxes - order.discounts}</h6>
                 </div>
                 
             </div>
@@ -56,17 +56,46 @@ export default async function OrderSpecificPage({
                 <div>
                     <p>Un resumen de todas tus rondas de cerveza</p>
                 </div>
+                <>
+                                    <div className={styles.tableContainer} >
+                                        <div className={styles.start}>
+
+                                        </div>
+                                    <div className={styles.start}>
+                                        <p><strong>Cerveza</strong></p>
+                                    </div>
+                                    <div className={styles.start}>
+                                        <p><strong>Cantidad</strong></p>
+                                    </div>
+                                    <div className={styles.start}>
+                                        <p><strong>Precio unitario</strong></p>
+                                    </div>
+                                    <div className={styles.start}>
+                                        <p><strong>Cerveza</strong></p>
+                                    </div>
+                                </div>
+                                </>
                         {
                             order.items.map((item)=>(
+          
                                 <div className={styles.tableContainer} key={`${item.name}-${item.quantity}`}>
-                                    <div>
-                                        <Image src={ITEM_MAPPER[item.name as keyof typeof ITEM_MAPPER]} alt={item.name} width={100} height={100} />
+                                    <div className={styles.start}>
+                                        <Image className={styles.image} src={ITEM_MAPPER[item.name as keyof typeof ITEM_MAPPER]} alt={item.name} width={100} height={100} />
                                     </div>
-                                    <p>{item.name}</p>
-                                    <p>{item.quantity}</p>
-                                    <p>${item.pricePerUnit}</p>
-                                    <p>${item.total}</p>
+                                    <div className={styles.start}>
+                                        <p> {item.name}</p>
+                                    </div>
+                                    <div className={styles.start}>
+                                        <p>{item.quantity}</p>
+                                    </div>
+                                    <div className={styles.start}>
+                                        <p>${item.pricePerUnit}</p>
+                                    </div>
+                                    <div className={styles.start}>
+                                        <p>${item.total}</p>
+                                    </div>
                                 </div>
+  
                             ))
                         }
             </div>

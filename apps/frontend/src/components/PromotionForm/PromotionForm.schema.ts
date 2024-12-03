@@ -24,18 +24,9 @@ export const PromotionFormSchema = z.object({
 }).superRefine((data, ctx) => {
   if (data.end <= data.start) {
     ctx.addIssue({
-      code: "custom", 
+      code: "custom",
       path: ["end"],
       message: "La fecha y hora de fin deben ser posteriores a la fecha y hora de inicio.",
-    });
-  }
-
-  const now = new Date();
-  if (data.start < now) {
-    ctx.addIssue({
-      code: "custom", 
-      path: ["start"],
-      message: "La fecha y hora de inicio no pueden estar en el pasado.",
     });
   }
 });

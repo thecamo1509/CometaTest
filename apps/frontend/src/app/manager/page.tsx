@@ -6,10 +6,14 @@ import { getActivePromotions } from '@/actions/promotions/getActivePromotions'
 import { AddPromotionModal } from './components/AddPromotionModal/AddPromotionModal'
 import { AddStockModal } from './components/AddStockModal/AddStockModal'
 import { Badge } from '@/components/ui/badge'
+import { getOrders } from '@/actions/orders/getOrders'
+import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
 export default async function ManagerPage() {
     const stock = await getStock()
     const promotions = await getActivePromotions()
+    const orders = await getOrders()
     return (
         <>
         <div className={styles.root}>
@@ -20,7 +24,7 @@ export default async function ManagerPage() {
                 </div>
                 <AddStockModal />
             </div>
-            <div className={styles.flexContainer}>
+            <div className={cn(styles.flexContainer,styles.summaryContainer)}>
                 {
                     stock.beers.map((beer) => (
                         <div key={beer.name} className={styles.infoContainer}>
@@ -40,7 +44,7 @@ export default async function ManagerPage() {
                 </div>
                 <AddPromotionModal />
             </div>
-            <div className={styles.rowContainer}> 
+            <div className={cn(styles.flexContainer,styles.summaryContainer)}> 
                 {
                     promotions.length === 0 ? <p>No hay promociones activas</p> :
                     promotions.map((promotion) => (
@@ -53,6 +57,25 @@ export default async function ManagerPage() {
                     ))
                 }
                 
+            </div>
+        </div>
+        <div className={styles.root}>
+            <div className={styles.flexContainer}>
+                <div>
+                    <h1 className={styles.title}>Ordenes Abiertas</h1>
+                </div>
+            </div>
+            <div className={cn(styles.flexContainer,styles.summaryContainer)}> 
+                {
+                    orders.length === 0 ? <p>No hay ordenes abiertas</p> :
+                    orders.map((order) => (
+                        <div key={order.uid} className={styles.promoContainer}>
+                            <p><strong>Orden: </strong><Link className={styles.link} href={`/clients/order/${order.uid}`}>{order.uid}</Link></p>
+                            <p><strong>Fecha de creacion: </strong>{order.created.toLocaleString('es-ES',{day:'2-digit',month:'short', 'year':'numeric', hour:'numeric', minute:'numeric'})} </p>
+                            <p><strong>Total: </strong>${order.subtotal + order.taxes - order.discounts}</p>
+                        </div>
+                    ))
+                }
             </div>
         </div>
         </>
